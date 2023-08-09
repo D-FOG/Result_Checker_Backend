@@ -23,6 +23,9 @@ const StudentSchema = new Schema({
         type: String,
         // unique: true
     },
+    enrollmentYear: {
+        type: Number,
+    },
    updatedAt: {
         type: Date,
         default: Date.now()

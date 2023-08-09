@@ -6,17 +6,20 @@ const path = require('path')
 
 // Assuming you have the user's email address in the variable 'userEmail'
 
-const sendEmail = (req, res, next) => {
+const sendEmail = (req, res) => {
+   
     try {
         const imagePath = path.join(__dirname, '../', 'image', 'dragon-ball-super.jpg');
         const imageBase64 = fs.readFileSync(imagePath, {encoding: 'base64'})
-        const {studentEmail, firstName, lastName} = req.val; // Replace this with the actual user's email
+        const {firstName, lastName, middleName, studentEmail, matNo, enrollmentYear} = req.val;
         console.log(`from the the middleware ${studentEmail}`)
+        console.log(firstName, lastName, middleName, studentEmail, matNo, enrollmentYear)
         // Generate the verification token
-        const verificationToken = generateToken(studentEmail);
-    
+        const verificationToken = generateToken(firstName, lastName, middleName, studentEmail, matNo, enrollmentYear)
+        console.log(verificationToken);
+
         // Create the verification link
-        const verificationLink = `https://your-app-domain.com/verify?token=${verificationToken}`;
+        const verificationLink = `http://localhost:4000/verify-email?token=${verificationToken}`;
     
         // Send the verification email
         transport.sendMail({
@@ -26,7 +29,6 @@ const sendEmail = (req, res, next) => {
             html: `<h1> Hello ${lastName} ${firstName} </h1>
                     <p> Click the following link to verify your account: <a href="${verificationLink}">Verifiy your mail</a></p>`,
         });
-        next()
     } catch(error) {
         res.status(403).send(`Link is not invalid ${error}`)
     }

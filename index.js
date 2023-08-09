@@ -6,11 +6,15 @@ const adminRoute = require('./Routes/adminRoutes/admin')
 const courseRoute = require('./Routes/coursesRoutes/course')
 const resultRoute = require('./Routes/resultRoutes/grade')
 const studentGradeRoute = require('./Routes/studentGradeRoute/studentGradeRoute')
+const studentLoginRoute = require('./Routes/studentLoginRoute/studentLoginRoute')
+const cors = require('cors')
+const verifyEmailRoute = require('./Routes/verifyEmailRoute/verifyEmailRoute')
 const app = express();
 
 app.use(express.json());
-
 app.use(express.urlencoded({ extended: true }));
+
+app.use(cors());
 
 app.get('/', (req, res) => {
     res.send("hello ma world");
@@ -21,6 +25,8 @@ app.use('/admin', adminRoute)
 app.use('/course', courseRoute)
 app.use('/results', resultRoute)
 app.use('/Grade', studentGradeRoute)
+app.use('/verify-email', verifyEmailRoute)
+app.use('/studentLogin', studentLoginRoute)
 
 
 

@@ -18,27 +18,6 @@ const createStudent = async (req, res) => {
                     }
                     res.status(409).json({error:`${ isStudentFields } already exists`})
                 } else {
-                   function hashPassword(userPassword, callback) {
-                        const saltRounds = 10;
-
-                        bcrypt.hash(userPassword, saltRounds, (err, hashedPassword) => {
-                            if (err) {
-                            console.error('Error while hashing the password:', err);
-                            return callback(err, null);
-                            }
-
-                            // Return the hashed password through the provided callback
-                            callback(null, hashedPassword);
-                        });
-                    }
-
-                        // Usage example:
-                    const userPassword = password;
-                    hashPassword(userPassword, (hashErr, hashedPassword) => {
-                    if (!hashErr) {
-                        console.log('Hashed password:', hashedPassword);
-                    }
-                    });
                     const students = new Student(studentBody)
                     students.save()
                         .then(students => {
@@ -72,7 +51,7 @@ const getStudent = (req, res) => {
 }
 
 const updateStudent = (req, res) => {
-    const { firstName, lastName, middleName, studentBody } = req.body;
+    const { firstName, lastName, middleName, enrollmentYear, studentBody } = req.body;
     const {matNo, studentEmail} = req.val;
     try{
         const student = Student.findOne({$or: [{ matNo }]})
@@ -87,7 +66,7 @@ const updateStudent = (req, res) => {
                     // }
                     res.status(409).json({error:`${ isStudentFields } already exists`})
                 } else {
-                    Student.findOneAndUpdate({studentEmail}, { firstName, lastName, middleName, matNo },{new: true})
+                    Student.findOneAndUpdate({studentEmail}, { firstName, lastName, middleName, matNo, enrollmentYear },{new: true})
                         .then(students => {
                             res.status(200).send(students);
                         })
