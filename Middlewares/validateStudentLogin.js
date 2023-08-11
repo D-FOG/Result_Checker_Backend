@@ -19,8 +19,8 @@ const studentLoginSchema = joi.object({
           res.send(error)
       } else{
           req.val = value
+          next()
       }
-      next()
   }
 
 module.exports = validateStudentLogin

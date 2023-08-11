@@ -22,7 +22,7 @@ const createAdminSchema = joi.object({
     lastName:joi.string().label('Last name').custom(capitalizeFirstLetter).required(),
     middleName:joi.string().label('Middle name').custom(capitalizeFirstLetter).required(),
     password:joi.string().min(6).max(8).label('password'),
-    passwordConfirm:joi.string().valid(joi.ref('password')).required(),
+    passwordConfirm:joi.string().valid(joi.ref('password')).label('Comfirm password').required(),
     email:joi.string().email().label('Email').custom(toLowerCase).required()
 })
 
@@ -37,21 +37,21 @@ const updateAdminSchema = joi.object({
 const validateCreateAdmin = (req, res, next) => {
     const {error, value} = createAdminSchema.validate(req.body)
     if (error) {
-        res.status(400).send(error);
+        res.status(400).send(error.details.map(detail => detail.message).join(', '));
     } else {
         req.val = value
+        next()
     }
-    next()
 }
 
 const validateUpdateAdmin = (req, res, next) => {
     const {error, value} = updateAdminSchema.validate(req.body)
     if (error) {
-        res.status(400).send(error);
+        res.status(400).send(error.details.map(detail => detail.message).join(', '));
     } else {
         req.val = value
+        next()
     }
-    next()
 }
 module.exports = {
     validateCreateAdmin,

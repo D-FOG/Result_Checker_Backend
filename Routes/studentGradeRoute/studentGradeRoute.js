@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { getStudentGrade, updateStudentGrade, deleteStudentGrade} = require('../../Controllers/studentGradeControllers')
+const { getStudentGrade, updateStudentGrade, deleteStudentGrade, getAllGrades} = require('../../Controllers/studentGradeControllers')
 
 /**
  * @swagger
@@ -34,6 +34,41 @@ const { getStudentGrade, updateStudentGrade, deleteStudentGrade} = require('../.
  *   description: API routes for grade operations
  */
 
+/**
+ * @swagger
+ * /Grade/allGrades:
+ *   get:
+ *     summary: Get every student grades
+ *     tags: [Grades]
+ *     responses:
+ *       '200':
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Grade'
+ *       '404':
+ *         description: No current grade found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *       '500':
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
+router.get('/allGrades', getAllGrades);
 /**
  * @swagger
  * /Grade:

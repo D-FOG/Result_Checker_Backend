@@ -100,9 +100,28 @@ const deleteStudent = (req, res) => {
         res.status(500).status(`Internal error: ${error}`);
     }
 }
+
+const getAllStudents = (req, res) => {
+    const { matNo } = req.body;
+
+
+    try {
+        Student.find()
+            .then(students => {
+                if (students) {
+                    res.status(200).send(students);
+                } else {
+                    res.status(404).send(`No student found: ${err}`);
+                }
+            })
+    } catch (error){
+        res.status(500).status(`Internal error: ${error}`);
+    }
+}
 module.exports = {
     createStudent, 
     getStudent,
     updateStudent,
-    deleteStudent
+    deleteStudent,
+    getAllStudents
 }

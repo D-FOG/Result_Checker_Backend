@@ -38,21 +38,21 @@ const updateCourseGradeSchema = joi.object({
 const validateCreateCourse = (req, res, next) => {
     const {error, value} = createCourseGradeSchema.validate(req.body)
     if (error) {
-        res.status(400).send(error);
+        res.status(400).send(error.details.map(detail => detail.message).join(', '));
     } else {
         req.val = value
+        next()
     }
-    next()
 }
 
 const validateUpdateCourse = (req, res, next) => {
     const {error, value} = updateCourseGradeSchema.validate(req.body)
     if (error) {
-        res.status(400).send(error);
+        res.status(400).send(error.details.map(detail => detail.message).join(', '));
     } else {
         req.val = value
+        next()
     }
-    next()
 }
 module.exports = {
     validateCreateCourse,

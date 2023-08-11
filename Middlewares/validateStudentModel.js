@@ -49,38 +49,43 @@ const updateStudentSchema = joi.object({
 
 const validateStudent = (req, res, next) => {
     const { error, value } = studentSchema.validate(req.body)
-    const err = error.details[0].message
+    const err = error
     if (err){
-        console.log(err)
-        res.status(400).json({err})
+      const errorValue = error.details.map(detail => detail.message).join(', ')
+      console.log(error)
+      res.status(400).json({errorValue})
       } else{
           req.val = value
+          next()
       }
-    next()
 }
 
 const validateStudentUpdate = (req, res, next) => {
   const { error, value } = updateStudentSchema.validate(req.body)
-  const err = error.details[0].message
+  const err = error
   if (err){
-      console.log(err)
-      res.status(400).json({err})
+    const errorValue = error.details.map(detail => detail.message).join(', ')
+    console.log(error)
+    res.status(400).json({errorValue})
   } else{
       req.val = value
+      next()
   }
-  next()
 }
 
 const validateGetStudent = (req, res, next) => {
   const { error, value } = getStudentSchema.validate(req.body)
   if (error){
+      const errorValue = error.details.map(detail => detail.message).join(', ')
       console.log(error)
-      res.status(400).json({error})
+      res.status(400).json({errorValue})
   } else{
       req.val = value
+      next()
   }
-  next()
 }
+
+//error.details.map(detail => detail.message).join(', ')
 
 module.exports = {
   validateStudent,

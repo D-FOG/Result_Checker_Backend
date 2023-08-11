@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router()
 const {Level, Course, Semester} = require('../../Models/Course/Course')
 const Grade = require('../../Models/Grade/gradeModel')
-const { createCourseGrade, getCourseGrade, updateCourseGrade, deleteCourseGrade} = require('../../Controllers/courseGradeControllers')
+const { createCourseGrade, getCourseGrade, updateCourseGrade, deleteCourseGrade, getAllCourses} = require('../../Controllers/courseGradeControllers')
 const { validateCreateCourse, validateUpdateCourse } = require('../../Middlewares/validateCourseGrade') 
 
 /**
@@ -26,6 +26,48 @@ const { validateCreateCourse, validateUpdateCourse } = require('../../Middleware
  *                      type: integer
  */
 
+/**
+ * @swagger
+ * tags:
+ *   name: Courses
+ *   description: API routes for course operations
+ */
+
+/**
+ * @swagger
+ * /course/allCourses:
+ *   get:
+ *     summary: Get all available courses
+ *     tags: [Courses]
+ *     responses:
+ *       '200':
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Course'
+ *       '404':
+ *         description: Courses not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *       '500':
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
+router.get('/allCourses', getAllCourses);
 /**
  * @swagger
  * tags:

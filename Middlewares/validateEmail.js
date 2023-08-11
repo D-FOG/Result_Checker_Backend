@@ -1,5 +1,6 @@
 const transport = require('../Services/emailService')
 const { generateToken } = require('../jwtUtils')
+const Student = require('../Models/Student/studentModel')
 require('dotenv').config()
 const fs = require('fs')
 const path = require('path')

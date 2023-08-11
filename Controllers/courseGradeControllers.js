@@ -1,6 +1,30 @@
 const { Level, Course, Semester} = require('../Models/Course/Course')
 const Grade = require('../Models/Grade/gradeModel')
 
+const getAllCourses =  (req, res) => {
+    try{
+        Level.countDocuments()
+            .then(level => {
+                if(level === 0) {
+                    res.status(404).send('No data in collection')
+                } else{
+                    Level.find({})
+                        .then(levels => {
+                            res.status(200).json(levels);
+                        })
+                        .catch(err => {
+                            res.status(400).send(`Error finding data: ${err}`);
+                        })
+                }
+            })
+            .catch(err => {
+                res.status(500).send(`Server error`);
+            })
+    } catch (error){
+        res.status(500).status(`Internal error: ${error}`);
+    }
+}
+
 const getCourseGrade = (req,res) => {
     try{
         const {levelNumber} = req.body
@@ -99,6 +123,7 @@ module.exports = {
     getCourseGrade,
     createCourseGrade,
     updateCourseGrade,
-    deleteCourseGrade
+    deleteCourseGrade,
+    getAllCourses
 }
 

@@ -18,11 +18,11 @@ const createGradeSchema = joi.object({
 const validateCreateGrade = (req, res, next) => {
     const {error, value} = createGradeSchema.validate(req.body)
     if (error) {
-        res.status(400).send(error);
+        res.status(400).send(error.details.map(detail => detail.message).join(', '));
     } else {
         req.val = value
+        next()
     }
-    next()
 }
 
 module.exports = {

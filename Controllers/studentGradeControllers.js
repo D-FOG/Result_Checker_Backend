@@ -1,13 +1,41 @@
 const StudentGrade = require('../Models/StudentGrade/studentGrade')
 
+const getAllGrades =  (req, res) => {
+    try{
+        StudentGrade.countDocuments()
+            .then(grade => {
+                if(grade === 0) {
+                    res.status(404).send('Sorry no data, please add grade')
+                } else{
+                    StudentGrade.find({})
+                        .then(grades => {
+                            res.status(200).json(grades);
+                        })
+                        .catch(err => {
+                            res.status(400).send(`Error finding data: ${err}`);
+                        })
+                }
+            })
+            .catch(err => {
+                res.status(500).send(`Server error`);
+            })
+    } catch (error){
+        res.status(500).status(`Internal error: ${error}`);
+    }
+}
+
 const getStudentGrade = (req,res) => {
     const {matNo} = req.body
-    const sGrades = StudentGrade.findOne({matNo})
+    const sGrades = StudentGrade.find({matNo})
         .then(sGrade => {
-            res.send(sGrade)
+            if(sGrade.length !== 0) {
+                res.status(200).send(sGrade)
+            } else {
+                res.status(404).send(`No grades recorded for the matriculation number ${matNo}`)
+            }
         })
         .catch(error => {
-            res.status(404).send(`Not found: ${error}`)
+            res.status(500).send(`Not found: ${error}`)
         })
 }
 
@@ -40,4 +68,5 @@ module.exports = {
     getStudentGrade,
     updateStudentGrade,
     deleteStudentGrade,
+    getAllGrades
 }

@@ -4,7 +4,7 @@ const Student = require('../../Models/Student/studentModel')
 const router = express.Router();
 const sendEmail = require('../../Middlewares/validateEmail')
 const {validateStudent, validateStudentUpdate, validateGetStudent} = require('../../Middlewares/validateStudentModel')
-const { createStudent, getStudent, updateStudent, deleteStudent } = require('../../Controllers/student') 
+const { createStudent, getStudent, updateStudent, deleteStudent, getAllStudents } = require('../../Controllers/student') 
 //const bcrypt = require('bcrypt')
 /**
  * @swagger
@@ -108,6 +108,48 @@ const { createStudent, getStudent, updateStudent, deleteStudent } = require('../
  */
 router.post('/', validateStudent, sendEmail);
 
+/**
+ * @swagger
+ * tags:
+ *   name: Students
+ *   description: API routes for student operations
+ */
+
+/**
+ * @swagger
+ * /students/getStudent:
+ *   post:
+ *     summary: Get all student
+ *     tags: [Students]
+ *     responses:
+ *       '200':
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Student'
+ *       '404':
+ *         description: No student found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *       '500':
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
+router.get('/', getAllStudents);
 /**
  * @swagger
  * tags:
