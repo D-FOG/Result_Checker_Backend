@@ -72,7 +72,7 @@ router.get('/allGrades', getAllGrades);
 /**
  * @swagger
  * /Grade:
- *   get:
+ *   post:
  *     summary: Get grades
  *     requestBody:
  *       description: Grade record to be gotten by matriculation number and courseNumberexample 400.1

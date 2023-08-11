@@ -78,7 +78,7 @@ router.get('/allCourses', getAllCourses);
 /**
  * @swagger
  * /course:
- *   get:
+ *   post:
  *     summary: Get courses based on the level number
  *     requestBody:
  *       description: Level Number body
