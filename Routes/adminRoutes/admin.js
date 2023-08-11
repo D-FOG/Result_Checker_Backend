@@ -73,12 +73,12 @@ router.get('/', getAdmin);
  * @swagger
  * tags:
  *   name: Admin
- *   description: API routes for student operations
+ *   description: API routes for admin operations
  */
 
 /**
  * @swagger
- * /students:
+ * /admin:
  *   post:
  *     summary: Create an admin
  *     requestBody:
@@ -158,8 +158,8 @@ router.post('/', validateCreateAdmin, createAdmin);
 /**
  * @swagger
  * tags:
- *   name: Students
- *   description: API routes for student operations
+ *   name: Admin
+ *   description: API routes for admin operations
  */
 
 /**
@@ -224,15 +224,15 @@ router.put('/', validateUpdateAdmin, updateAdmin);
 /**
  * @swagger
  * tags:
- *   name: Students
- *   description: API routes for student operations
+ *   name: Admin
+ *   description: API routes for admin operations
  */
 
 /**
  * @swagger
  * /students:
  *   delete:
- *     summary: Delete a student.
+ *     summary: Delete an admin.
  *     requestBody:
  *       description: Admin Number is used to delete an admin
  *       required: true
