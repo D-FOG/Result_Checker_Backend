@@ -230,7 +230,7 @@ router.put('/', validateUpdateAdmin, updateAdmin);
 
 /**
  * @swagger
- * /students:
+ * /admin:
  *   delete:
  *     summary: Delete an admin.
  *     requestBody:
