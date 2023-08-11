@@ -17,13 +17,24 @@ const capitalizeFirstLetter = (value) => {
     return value.toLowerCase();
   };
 
+  const toUpperCase = (value) => {
+    if (typeof value !== 'string') {
+      throw new Error('Invalid input. The value must be a string.');
+    }
+    return value.toUpperCase();
+  };
+
+  const getStudentSchema = joi.object({
+    matNo: joi.string().max(13).custom(toLowerCase).label('Matriculation number').required()
+})
+
 const studentSchema = joi.object({
     firstName:joi.string().custom(capitalizeFirstLetter).label('First name').required(),
     lastName: joi.string().custom(capitalizeFirstLetter).label('Last name').required(),
     middleName: joi.string().custom(capitalizeFirstLetter).label('Middle name').required(),
     studentEmail: joi.string().custom(toLowerCase).email().label('Email').required(),
     enrollmentYear: joi.number().required(),
-    matNo: joi.string().max(13).label('Matriculation number').required()
+    matNo: joi.string().max(13).custom(toLowerCase).label('Matriculation number').required()
 })
 
 const updateStudentSchema = joi.object({
@@ -32,26 +43,39 @@ const updateStudentSchema = joi.object({
   middleName: joi.string().custom(capitalizeFirstLetter).label('Middle Name').required(),
   studentEmail: joi.string().custom(toLowerCase).email().label('Email').required(),
   enrollmentYear: joi.number().required(),
-  matNo: joi.string().max(13).label('Matriculation number').required()
+  matNo: joi.string().max(13).custom(toLowerCase).label('Matriculation number').required()
 })
 
 
 const validateStudent = (req, res, next) => {
     const { error, value } = studentSchema.validate(req.body)
-    if (error){
-        console.log(error)
-        res.send(error)
-    } else{
-        req.val = value
-    }
+    const err = error.details[0].message
+    if (err){
+        console.log(err)
+        res.status(400).json({err})
+      } else{
+          req.val = value
+      }
     next()
 }
 
 const validateStudentUpdate = (req, res, next) => {
   const { error, value } = updateStudentSchema.validate(req.body)
+  const err = error.details[0].message
+  if (err){
+      console.log(err)
+      res.status(400).json({err})
+  } else{
+      req.val = value
+  }
+  next()
+}
+
+const validateGetStudent = (req, res, next) => {
+  const { error, value } = getStudentSchema.validate(req.body)
   if (error){
       console.log(error)
-      res.send(error)
+      res.status(400).json({error})
   } else{
       req.val = value
   }
@@ -60,5 +84,6 @@ const validateStudentUpdate = (req, res, next) => {
 
 module.exports = {
   validateStudent,
-  validateStudentUpdate
+  validateStudentUpdate,
+  validateGetStudent
 }

@@ -40,10 +40,14 @@ const getStudent = (req, res) => {
     try{
         Student.findOne({matNo})
             .then(students => {
-                res.status(200).send(students);
+                if(students){
+                    res.status(200).json({students})
+                } else {
+                    res.status(404).json({message: `student not found`})
+                }
             })
             .catch(err => {
-                res.status(400).send(`Not found: ${err}`);
+                res.status(400).send(`${err}`);
             })
     } catch (error){
         res.status(500).status(`Internal error: ${error}`);
@@ -90,7 +94,7 @@ const deleteStudent = (req, res) => {
                 res.status(200).send(students);
             })
             .catch(err => {
-                res.status(400).send(`Not found: ${err}`);
+                res.status(404).send(`Not found: ${err}`);
             })
     } catch (error){
         res.status(500).status(`Internal error: ${error}`);

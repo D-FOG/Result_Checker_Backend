@@ -1,0 +1,14 @@
+openapi: 3.0.0
+info:
+  title: Your API Documentation
+  version: 1.0.0
+paths:
+  # ... other paths
+
+tags:
+    -name: Admin
+    description: API routes for admin operations
+    -name: Students
+    description: API routes for student operations
+    -name: Results
+    description: API routes for result operations

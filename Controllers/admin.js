@@ -1,9 +1,11 @@
+const bcrypt = require('bcrypt')
 const Admin = require('../Models/Admin/Admin')
 const createAdmin = async (req, res) => {
     const adminBody = req.body;
     const {email, password, firstName, lastName, middleName} = req.val;
-    const adminNumber = Math.floor(Math.random() * 1000)
+    const adminNumber = `$${Math.floor(Math.random() * 1000)}`;
     try{
+        const hashedPassword = await bcrypt.hash(password, 10);
         const student = Admin.findOne({$or: [{ email },{ adminNumber }]})
             .then(isAdmin => {
                 if (isAdmin) {
@@ -16,10 +18,10 @@ const createAdmin = async (req, res) => {
                     }
                     res.status(409).json({error:`${ isAdminFields } already exists`})
                 } else {
-                    const admin = new Admin({adminNumber, email, password, firstName, lastName, middleName})
+                    const admin = new Admin({adminNumber, email, password: hashedPassword, firstName, lastName, middleName})
                     admin.save()
                         .then(admin => {
-                            res.status(200).send(admin);
+                            res.status(200).json(admin);
                         })
                         .catch(err => {
                             res.status(400).send(`Failed to upload students: ${err}`);
@@ -40,7 +42,7 @@ const getAdmin =  (req, res) => {
                 } else{
                     Admin.find({})
                         .then(admin => {
-                            res.status(200).send(admin);
+                            res.status(200).json(admin);
                         })
                         .catch(err => {
                             res.status(400).send(`Error finding data: ${err}`);

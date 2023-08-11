@@ -1,36 +1,36 @@
 const express = require('express');
 const router = express.Router()
-const studentLogin = require('../../Controllers/studentLogin')
-const validateStudentLogin = require('../../Middlewares/validateStudentLogin')
+const adminLogin = require('../../Controllers/adminLoginController')
+const validateAdminLogin = require('../../Middlewares/validateAdminLogin')
 
 /**
  * @swagger
  * tags:
- *   name: Student Login
- *   description: API routes for student login operations
+ *   name: Admin Login
+ *   description: API routes for admin login operations
  */
 
 /**
  * @swagger
- * /studentLogin:
+ * /adminLogin:
  *   post:
- *     summary: Student login. This is done before student can check his/her results.
+ *     summary: Admin login.
  *     requestBody:
- *       description: Student form body needed for login
+ *       description: Admin form body needed for login
  *       required: true
  *       content:
  *         application/json:   # Specify the content type
  *           schema:
  *             type: object
  *             properties:
- *               matNo:
+ *               email:
  *                  type: string
- *               studentEmail:
+ *               password:
  *                  type: string
  *             required:
- *               - matNo
- *               - studentEmail
- *     tags: [Student Login]
+ *               - email
+ *               - password
+ *     tags: [Admin Login]
  *     responses:
  *       '200':
  *         description: Successful response
@@ -42,7 +42,7 @@ const validateStudentLogin = require('../../Middlewares/validateStudentLogin')
  *                 message:
  *                   type: string
  *       '404':
- *         description: Student Login credentials not found
+ *         description: Admin Login email not found
  *         content:
  *           application/json:
  *             schema:
@@ -51,7 +51,7 @@ const validateStudentLogin = require('../../Middlewares/validateStudentLogin')
  *                 error:
  *                   type: string
  *       '400':
- *         description: Student login credentials incorrect
+ *         description: Admin login password incorrect
  *         content:
  *           application/json:
  *             schema:
@@ -70,5 +70,5 @@ const validateStudentLogin = require('../../Middlewares/validateStudentLogin')
  *                 error:
  *                   type: string
  */
-router.post('/', validateStudentLogin, studentLogin)
+router.post('/', validateAdminLogin, adminLogin)
 module.exports = router

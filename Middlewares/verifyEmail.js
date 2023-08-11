@@ -38,31 +38,17 @@ const verifyEmail = (req, res) => {
         console.error(err);
         res.status(400).json({ message: 'Invalid token' });
       } else {
-         // Token is valid, you can perform necessary actions (e.g., update user's email verification status)
-            const {firstName, lastName, middleName, matNo, studentEmail, enrollmentYear} = decoded;
 
-            const student = Student.findOne({$or: [{ matNo },{ studentEmail }]})
-                .then(isStudents => {
-                    if (isStudents) {
-                        const isStudentFields = []
-                        if (isStudents.matNo === matNo){
-                            isStudentFields.push('Matriculation number')
-                        }
-                        if (isStudents.studentEmail === studentEmail){
-                            isStudentFields.push('Student email')
-                        }
-                        res.status(409).json({error:`${ isStudentFields } already exists`})
-                    } else {
-                        const students = new Student({firstName, lastName, middleName, studentEmail, matNo, enrollmentYear})
-                        students.save()
-                            .then(students => {
-                                res.status(201).set(headers).send(htmlContent);
-                            })
-                            .catch(err => {
-                                res.status(400).send(`Failed to upload students: ${err}`);
-                            })
-                    }
-                })
+         // Token is valid, you can perform necessary actions (e.g., update user's email verification status)
+         const {firstName, lastName, middleName, matNo, studentEmail, enrollmentYear} = decoded;
+         const students = new Student({firstName, lastName, middleName, studentEmail, matNo, enrollmentYear})
+         students.save()
+             .then(students => {
+                 res.status(201).set(headers).send(htmlContent);
+             })
+             .catch(err => {
+                 res.status(400).send(`Failed to upload students: ${err}`);
+             })
         }
     })
 }

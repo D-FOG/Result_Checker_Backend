@@ -30,10 +30,10 @@ const deleteStudentGrade = (req,res) => {
     const {matNo, courseNumber} = req.body
     StudentGrade.findOneAndDelete({matNo, courseNumber})
         .then(sGrade => {
-            res.send(sGrade)
+            res.status(200).send(sGrade)
         })
         .catch(error => {
-            res.send(`Error deleting grades try again later: ${error}`)
+            res.status(404).send(`Error deleting grades try again later: ${error}`)
         })
 }
 module.exports = {

@@ -13,9 +13,9 @@ const studentLogin = async (req, res) => {
     }
     if (student){
         if (email !== studentEmail) {
-            res.status(400).send('Email is not coreect');
+            res.status(400).json({message: 'Email is not coreect'});
         } else {
-            res.status(200).send('Logged in successfully');
+            res.status(200).json({message: 'Logged in successfully'});
         }
     }
 }
