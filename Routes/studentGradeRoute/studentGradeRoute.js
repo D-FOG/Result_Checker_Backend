@@ -118,7 +118,7 @@ router.get('/allGrades', getAllGrades);
  *                 error:
  *                   type: string
  */
-router.get('/', getStudentGrade);
+router.post('/', getStudentGrade);
 
 /**
  * @swagger
