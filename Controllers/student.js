@@ -56,7 +56,7 @@ const getStudent = (req, res) => {
 
 const updateStudent = (req, res) => {
     const { firstName, lastName, middleName, enrollmentYear, studentBody } = req.body;
-    const {matNo, studentEmail} = req.val;
+    const {matNo} = req.val;
     try{
         const student = Student.findOne({$or: [{ matNo }]})
             .then(isStudents => {

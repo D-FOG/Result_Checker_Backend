@@ -38,10 +38,10 @@ const studentSchema = joi.object({
 })
 
 const updateStudentSchema = joi.object({
-  firstName:joi.string().custom(capitalizeFirstLetter).label('First name').required(),
-  lastName: joi.string().custom(capitalizeFirstLetter).label('Last name').required(),
-  middleName: joi.string().custom(capitalizeFirstLetter).label('Middle Name').required(),
-  studentEmail: joi.string().custom(toLowerCase).email().label('Email').required(),
+  firstName:joi.string().custom(capitalizeFirstLetter).label('First name'),
+  lastName: joi.string().custom(capitalizeFirstLetter).label('Last name'),
+  middleName: joi.string().custom(capitalizeFirstLetter).label('Middle Name'),
+  studentEmail: joi.string().custom(toLowerCase).email().label('Email'),
   enrollmentYear: joi.number().required(),
   matNo: joi.string().max(13).custom(toLowerCase).label('Matriculation number').required()
 })
