@@ -1,63 +1,66 @@
 const joi = require('joi');
 
 const capitalizeFirstLetter = (value) => {
-    // Ensure the value is a string
-    if (typeof value !== 'string') {
-      throw new Error('Invalid input. The value must be a string.');
-    }
-  
-    // Convert the whole string to lowercase and then capitalize the first letter
-    return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-  };
+  // Ensure the value is a string
+  if (typeof value !== 'string') {
+    throw new Error('Invalid input. The value must be a string.');
+  }
 
-  const toLowerCase = (value) => {
-    if (typeof value !== 'string') {
-      throw new Error('Invalid input. The value must be a string.');
-    }
-    return value.toLowerCase();
-  };
+  // Convert the whole string to lowercase and then capitalize the first letter
+  return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+};
 
-  const toUpperCase = (value) => {
-    if (typeof value !== 'string') {
-      throw new Error('Invalid input. The value must be a string.');
-    }
-    return value.toUpperCase();
-  };
+const toLowerCase = (value) => {
+  if (typeof value !== 'string') {
+    throw new Error('Invalid input. The value must be a string.');
+  }
+  return value.toLowerCase();
+};
 
-  const getStudentSchema = joi.object({
-    matNo: joi.string().max(13).custom(toLowerCase).label('Matriculation number').required()
+const toUpperCase = (value) => {
+  if (typeof value !== 'string') {
+    throw new Error('Invalid input. The value must be a string.');
+  }
+  return value.toUpperCase();
+};
+
+const getStudentSchema = joi.object({
+  matNo: joi.string().max(13).custom(toLowerCase).label('Matriculation number').required()
 })
 
 const studentSchema = joi.object({
-    firstName:joi.string().custom(capitalizeFirstLetter).label('First name').required(),
-    lastName: joi.string().custom(capitalizeFirstLetter).label('Last name').required(),
-    middleName: joi.string().custom(capitalizeFirstLetter).label('Middle name').required(),
-    studentEmail: joi.string().custom(toLowerCase).email().label('Email').required(),
-    enrollmentYear: joi.number().required(),
-    matNo: joi.string().max(13).custom(toLowerCase).label('Matriculation number').required()
+  firstName:joi.string().custom(capitalizeFirstLetter).label('First name').required(),
+  lastName: joi.string().custom(capitalizeFirstLetter).label('Last name').required(),
+  middleName: joi.string().custom(capitalizeFirstLetter).label('Middle name').required(),
+  studentEmail: joi.string().custom(toLowerCase).email().label('Email').required(),
+  enrollmentYear: joi.number().required(),
+  matNo: joi.string().max(13).custom(toLowerCase).label('Matriculation number').required()
 })
 
 const updateStudentSchema = joi.object({
   firstName:joi.string().custom(capitalizeFirstLetter).label('First name'),
   lastName: joi.string().custom(capitalizeFirstLetter).label('Last name'),
   middleName: joi.string().custom(capitalizeFirstLetter).label('Middle Name'),
-  studentEmail: joi.string().custom(toLowerCase).email().label('Email'),
-  enrollmentYear: joi.number().required(),
+  studentEmail: joi.string().custom(toLowerCase).email().label('Email').required(),
+  enrollmentYear: joi.number(),
+  matNo: joi.string().max(13).custom(toLowerCase).label('Matriculation number')
+})
+
+const deleteStudentSchema = joi.object({
   matNo: joi.string().max(13).custom(toLowerCase).label('Matriculation number').required()
 })
 
-
 const validateStudent = (req, res, next) => {
-    const { error, value } = studentSchema.validate(req.body)
-    const err = error
-    if (err){
-      const errorValue = error.details.map(detail => detail.message).join(', ')
-      console.log(error)
-      res.status(400).json({errorValue})
-      } else{
-          req.val = value
-          next()
-      }
+  const { error, value } = studentSchema.validate(req.body)
+  const err = error
+  if (err){
+    const errorValue = error.details.map(detail => detail.message).join(', ')
+    console.log(error)
+    res.status(400).json({errorValue})
+  } else{
+    req.val = value
+    next()
+  }
 }
 
 const validateStudentUpdate = (req, res, next) => {
@@ -68,20 +71,31 @@ const validateStudentUpdate = (req, res, next) => {
     console.log(error)
     res.status(400).json({errorValue})
   } else{
-      req.val = value
-      next()
+    req.val = value
+    next()
   }
 }
 
 const validateGetStudent = (req, res, next) => {
   const { error, value } = getStudentSchema.validate(req.body)
   if (error){
-      const errorValue = error.details.map(detail => detail.message).join(', ')
-      console.log(error)
-      res.status(400).json({errorValue})
+    const errorValue = error.details.map(detail => detail.message).join(', ')
+    console.log(error)
+    res.status(400).json({errorValue})
   } else{
-      req.val = value
-      next()
+    req.val = value
+    next()
+  }
+}
+const validateDeleteStudent = (req, res, next) => {
+  const { error, value } = deleteStudentSchema.validate(req.body)
+  if (error){
+    const errorValue = error.details.map(detail => detail.message).join(', ')
+    console.log(error)
+    res.status(400).json({errorValue})
+  } else{
+    req.val = value
+    next()
   }
 }
 
@@ -90,5 +104,6 @@ const validateGetStudent = (req, res, next) => {
 module.exports = {
   validateStudent,
   validateStudentUpdate,
-  validateGetStudent
+  validateGetStudent,
+  validateDeleteStudent
 }

@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const Student = require('../../Models/Student/studentModel')
 const router = express.Router();
 const sendEmail = require('../../Middlewares/validateEmail')
-const {validateStudent, validateStudentUpdate, validateGetStudent} = require('../../Middlewares/validateStudentModel')
+const {validateStudent, validateStudentUpdate, validateGetStudent, validateDeleteStudent} = require('../../Middlewares/validateStudentModel')
 const { createStudent, getStudent, updateStudent, deleteStudent, getAllStudents } = require('../../Controllers/student') 
 //const bcrypt = require('bcrypt')
 /**
@@ -353,5 +353,5 @@ router.put('/', validateStudentUpdate, updateStudent);
  *                   type: string
  */
 
-router.delete('/', deleteStudent);
+router.delete('/', validateDeleteStudent, deleteStudent);
 module.exports = router

@@ -56,9 +56,9 @@ const getStudent = (req, res) => {
 
 const updateStudent = (req, res) => {
     const { firstName, lastName, middleName, enrollmentYear, studentBody } = req.body;
-    const {matNo} = req.val;
+    const {matNo, studentEmail} = req.val;
     try{
-        const student = Student.findOne({$or: [{ matNo }]})
+        const student = Student.findOne({ matNo })
             .then(isStudents => {
                 if (isStudents) {
                     const isStudentFields = []
@@ -91,10 +91,11 @@ const deleteStudent = (req, res) => {
     try {
         Student.findOneAndDelete({ matNo })
             .then(students => {
-                res.status(200).send(students);
-            })
-            .catch(err => {
-                res.status(404).send(`Not found: ${err}`);
+                if (students) {
+                    res.status(200).send(students);
+                } else {
+                    res.status(404).send(`No student found`);
+                }
             })
     } catch (error){
         res.status(500).status(`Internal error: ${error}`);
@@ -111,7 +112,7 @@ const getAllStudents = (req, res) => {
                 if (students) {
                     res.status(200).send(students);
                 } else {
-                    res.status(404).send(`No student found: ${err}`);
+                    res.status(404).send(`No student found`);
                 }
             })
     } catch (error){

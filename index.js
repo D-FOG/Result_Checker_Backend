@@ -54,47 +54,6 @@ const specs = swaggerJSDoc(options);
 
 app.use('/result-docs', swaggerUI.serve, swaggerUI.setup(specs))
 
-// async function hash(){
-//     let array = []
-//         const password = `favour`
-//         const hashedPassword = await bcrypt.hash(password, 10)
-//         return hashedPassword
-    
-    
-//     // array.push(hashedPassword)
-//     // console.log(hashedPassword)
-//     // console.log(typeof hashedPassword)
-
-//     // bcrypt.compare(hashedPassword, password, (err, isPassword) => {
-//     //     if (err){
-//     //         console.log(`password incorrect fatal error: ${err}`)
-//     //     } else if (isPassword){
-//     //         console.log('passwords are matching')
-//     //     } else {
-//     //         console.log(`access denied`)
-//     //     }
-//     // })
-// }
-
-
-// try {
-//     const data = hash()
-//     return data
-// } catch (err) {
-//     console.log(err)
-// }
-// // const vall = hash()
-
-// console.log(data)
-
-// async function unHash(){
-//     const matchPassword = bcrypt.compare(hashedPassword, password)
-//     console.log(matchPassword)
-// }
-
-// unHash()
-
-
 db();
 
 console.log(process.env.PORT);

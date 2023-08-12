@@ -8,17 +8,17 @@ const joi = require('joi');
   };
 
 const adminLoginSchema = joi.object({
-    password:joi.string().min(6).max(8).label('password'),
+    password:joi.string().label('Password'),
     email:joi.string().email().label('Email').custom(toLowerCase).required()
 })
 const validateAdminLogin = (req, res, next) => {
-    const {error, value} = adminLoginSchema.validate(req.body)
-    if (error) {
-        res.status(400).send(error.details.map(detail => detail.message).join(', '));
-    } else {
-        req.val = value
-        next()
-    }
+  const {error, value} = adminLoginSchema.validate(req.body)
+  if (error) {
+    res.status(400).send(error.details.map(detail => detail.message).join(', '));
+  } else {
+    req.val = value
+    next()
+  }
 }
 
 module.exports = validateAdminLogin
