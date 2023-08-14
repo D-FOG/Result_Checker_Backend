@@ -67,7 +67,7 @@ const updateAdmin = (req, res) => {
                     Admin.findOne({adminNumber})
                         .then((updatedAdmin)=>res.status(200).send(updatedAdmin))
                 } else {
-                    res.status(200).send('No changes made')
+                    res.status(400).send('No changes made')
                 }
             })
             .catch(err => {

@@ -45,7 +45,7 @@ const sendEmail = (req, res) => {
 
 
                     // Create the verification link
-                    const verificationLink = `http://localhost:4000/verify-email?token=${verificationToken}`;
+                    const verificationLink = `https://result-backend.onrender.com/verify-email?token=${verificationToken}`;
                 
                     // Send the verification email
                     transport.sendMail({
