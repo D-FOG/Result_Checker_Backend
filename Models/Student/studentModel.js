@@ -26,6 +26,9 @@ const StudentSchema = new Schema({
     enrollmentYear: {
         type: Number,
     },
+    secretValue: {
+        type: String,
+    },
    updatedAt: {
         type: Date,
         default: Date.now()

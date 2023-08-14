@@ -54,7 +54,8 @@ const specs = swaggerJSDoc(options);
 
 app.use('/result-docs', swaggerUI.serve, swaggerUI.setup(specs))
 
-db();
+db()
+
 
 console.log(process.env.PORT);
 

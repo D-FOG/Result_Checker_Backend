@@ -61,7 +61,7 @@ const updateAdmin = (req, res) => {
     const { adminNumber, firstName, lastName, middleName, password, email } = req.val;
     try{
         //const admin = Admin.findOne({adminNumber})
-        Admin.updateOne({adminNumber}, { firstName, lastName, middleName, password, email })
+        Admin.updateOne({adminNumber}, { firstName, lastName, middleName, email })
             .then(admin => {
                 if (admin.modifiedCount === 1){
                     Admin.findOne({adminNumber})

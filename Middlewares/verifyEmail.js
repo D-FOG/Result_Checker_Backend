@@ -33,6 +33,7 @@ const verifyEmail = (req, res) => {
     </html>    
     `
     let data;
+    
     jwt.verify(token, process.env.secretKey, (err, decoded) => {
       if (err) {
         console.error(err);
@@ -40,8 +41,8 @@ const verifyEmail = (req, res) => {
       } else {
 
          // Token is valid, you can perform necessary actions (e.g., update user's email verification status)
-         const {firstName, lastName, middleName, matNo, studentEmail, enrollmentYear} = decoded;
-         const students = new Student({firstName, lastName, middleName, studentEmail, matNo, enrollmentYear})
+         const {firstName, lastName, middleName, matNo, studentEmail, enrollmentYear, value} = decoded;
+         const students = new Student({firstName, lastName, middleName, studentEmail, matNo, enrollmentYear, secretValue: value})
          students.save()
              .then(students => {
                  res.status(201).set(headers).send(htmlContent);

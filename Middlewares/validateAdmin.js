@@ -31,7 +31,8 @@ const updateAdminSchema = joi.object({
     lastName:joi.string().label('Last name').custom(capitalizeFirstLetter),
     middleName:joi.string().label('Middle name').custom(capitalizeFirstLetter),
     password:joi.string().min(6).max(8).label('password'),
-    email:joi.string().email().label('Email').custom(toLowerCase)
+    email:joi.string().email().label('Email').custom(toLowerCase),
+    adminNumber:joi.string().label('Admin Number')
 })
 
 const validateCreateAdmin = (req, res, next) => {

@@ -7,7 +7,7 @@ const toLowerCase = (value) => {
     return value.toLowerCase();
   };
 const studentLoginSchema = joi.object({
-    studentEmail: joi.string().custom(toLowerCase).email().label('Email').required(),
+    secretValue: joi.string().label('Secret Key').required(),
     matNo: joi.string().max(13).custom(toLowerCase).label('Matriculation number').required()
   })
   

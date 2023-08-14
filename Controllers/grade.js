@@ -70,91 +70,131 @@ const getGrade =  (req,res) => {
     //     })
 }
 
-const createGrade = (req,res) => {
-    const {courseNumber} = req.val;
-    const {subjectNumber} = req.val
-   function grade(){
-       const gradeData = req.val
-       const grades = new Grade(gradeData)
-       grades.save()
-           .then(grade => {
-               res.status(201).send(grade)
-           })
-           .catch(error => {
-               res.status(500).send(`Unable to create grades ${error}`)
-           }) 
-   }
-   grade()
+const createGrade = async (req,res) => {
+    // const {courseNumber, matNo} = req.val;
+    // const subjectNumber = courseNumber;
+    // let subjectValue, matricNum, courseValue, gradeVal, creditUnits, levelYear, semesterValue, courseCodes, courseDesc, acadYear;
+    // const gradeData = req.val
+    // console.log(subjectNumber)
 
-   async function value( ) {
-       let subjectValue;
-       let matricNum;
-       let courseValue;
-       let gradeVal;
-       let creditUnit;
-       let levelYear;
-       let semesterValue;
-       let courseCodes;
-       let courseDesc;
-       let acadYear;
-       const Course = await Level.findOne({'semester.courses.subjectNumber': subjectNumber})
-       .then(course => {
-           const array = course.semester[0].courses
-           subjectValue = array[0].subjectNumber
-           courseDesc = array[0].name
-           courseCodes = array[0].code
-           creditUnit = array[0].creditUnits
-           semesterValue = course.semester[0].semesterNumber
-           levelYear = course.levelNumber
-           //res.send(`value: ${isCourse}`)
-       })
+    // try {
+    //     const { courseNumber, matNo } = req.val;
+    //     const subjectNumber = courseNumber;
+
+    //     const course = await Level.findOne({ 'semester.courses.subjectNumber': subjectNumber })
+    //     .then(course => {
+    //         if (!course) {
+    //             return res.status(404).send(`Course does not exist, please add the course to give it a grade`);
+    //         }
+    
+    //         const array = course.semester[0].courses;
+    //         subjectValue = array[0].subjectNumber;
+    //         courseDesc = array[0].name;
+    //         courseCodes = array[0].code;
+    //         creditUnits = array[0].creditUnits;
+    //         semesterValue = course.semester[0].semesterNumber;
+    //         levelYear = course.levelNumber;
+    //     })
+
+        
+
+    //     const grades = new Grade(req.val)
+    //     await grades.save()
+    //     .then(grades => {
+    //         courseValue = grades.courseNumber;
+    //         matricNum = grades.matNo;
+    //         gradeVal = grades.gradeValue;
+    //         acadYear = grades.academicYear;
+    //     })
+
+        
+
+    //     const exists = await Grade.findOne({ matNo, courseNumber })
+    //     .then( exists => {
+    //         if (exists) {
+    //             return res.status(409).send(`The Matriculation number already has a grade for this course`);
+    //         }
+    //     })
+
+    //     const stGrades = new StudentGrade({
+    //         matNo: matricNum,
+    //         academicYear: acadYear,
+    //         semesterNumber: semesterValue,
+    //         courseCode: courseCodes,
+    //         courseName: courseDesc,
+    //         creditUnits: creditUnits,
+    //         gradeValue: gradeVal,
+    //         levelNumber: levelYear,
+    //         courseNumber: courseValue,
+    //     });
+
+    //     await stGrades.save();
+    //     console.log(stGrades);
+
+        
+    // } catch (error) {
+    //     res.status(500).send(error);
+    // }    
+
    
-       const grade = await Grade.findOne({courseNumber})
-       .then(grades => {
-           courseValue = grades.courseNumber
-           matricNum = grades.matNo
-           gradeVal = grades.gradeValue
-           acadYear - grades.academicYear
-           
-           //res.send(`value: ${courseValue}`)
-       })
-       console.log(`value1 is: ${subjectValue} $value2 is: ${courseValue}`);
-       console.log(courseDesc)
-       console.log(courseCodes)
-       console.log(creditUnit)
-       console.log(semesterValue)
-       console.log(levelYear)
-       console.log(matricNum)
-       console.log(gradeVal)
-       console.log(acadYear)
+    try {
+        const { courseNumber, matNo } = req.val;
+        const subjectNumber = courseNumber;
 
-       if (subjectValue === courseValue){
-           const stGrades = new StudentGrade({
-               matNo: matricNum,
-               academicYear : acadYear ,
-               semesterNumber: semesterValue,
-               courseCode: courseCodes,
-               courseName:  courseDesc,
-               creditUnits: creditUnit,
-               gradeValue: gradeVal,
-               levelNumber: levelYear,
-               courseNumber: courseValue
-           })
+        const course = await Level.findOne({ 'semester.courses.subjectNumber': subjectNumber });
 
-           stGrades.save()
-               .then(stGrade => {
-                   console.log(stGrades)
-               })
-               .catch(error => {
-                   console.log(error)
-               })
-       } else{
-           console.error('error creating database for student Grades model')
-       }
-   }
+        if (!course) {
+            return res.status(404).send(`Course does not exist, please add the course to give it a grade`);
+        }
 
-   value()
-   
+        const array = course.semester[0].courses;
+        subjectValue = array[0].subjectNumber;
+        courseDesc = array[0].name;
+        courseCodes = array[0].code;
+        creditUnits = array[0].creditUnits;
+        semesterValue = course.semester[0].semesterNumber;
+        levelYear = course.levelNumber;
+
+        const exists = await Grade.findOne({ matNo, courseNumber });
+
+        if (exists) {
+            console.log(exists)
+            res.status(409).send(`The Matriculation number already has a grade for this course`);
+        } else {
+            const grades = new Grade(req.val);
+            await grades.save();
+
+            courseValue = grades.courseNumber;
+            matricNum = grades.matNo;
+            gradeVal = grades.gradeValue;
+            acadYear = grades.academicYear;
+
+            const stGrades = new StudentGrade({
+                matNo: matricNum,
+                academicYear: acadYear,
+                semesterNumber: semesterValue,
+                courseCode: courseCodes,
+                courseName: courseDesc,
+                creditUnits: creditUnits,
+                gradeValue: gradeVal,
+                levelNumber: levelYear,
+                courseNumber: courseValue,
+            });
+
+            await stGrades.save()
+            .then( stGrades => {
+            res.status(201).send(stGrades)
+            })
+            console.log(stGrades);
+        }
+
+        // Respond to the client here if necessary
+
+    } catch (error) {
+        res.status(500).send(error);
+    }
+
+    
 }
 
 module.exports = {
