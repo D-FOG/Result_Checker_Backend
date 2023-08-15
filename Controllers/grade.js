@@ -138,10 +138,10 @@ const createGrade = async (req,res) => {
 
    
     try {
-        const { courseNumber, matNo } = req.val;
+        const { courseNumber, matNo, code } = req.val;
         const subjectNumber = courseNumber;
 
-        const course = await Level.findOne({ 'semester.courses.subjectNumber': subjectNumber });
+        const course = await Level.findOne({ 'semester.courses.subjectNumber': code });
 
         if (!course) {
             return res.status(404).send(`Course does not exist, please add the course to give it a grade`);
