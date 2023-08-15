@@ -29,7 +29,7 @@ const getStudentGrade = (req,res) => {
     const sGrades = StudentGrade.find({matNo})
         .then(sGrade => {
             if(sGrade.length !== 0) {
-                res.status(200).send(sGrade)
+                res.status(200).json({data: sGrade})
             } else {
                 res.status(404).send(`No grades recorded for the matriculation number ${matNo}`)
             }
