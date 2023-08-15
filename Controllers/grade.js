@@ -139,7 +139,6 @@ const createGrade = async (req,res) => {
    
     try {
         const { courseNumber, matNo, code } = req.val;
-        const subjectNumber = courseNumber;
 
         const course = await Level.findOne({ 'semester.courses.subjectNumber': code });
 
@@ -150,7 +149,6 @@ const createGrade = async (req,res) => {
         const array = course.semester[0].courses;
         subjectValue = array[0].subjectNumber;
         courseDesc = array[0].name;
-        courseCodes = array[0].code;
         creditUnits = array[0].creditUnits;
         semesterValue = course.semester[0].semesterNumber;
         levelYear = course.levelNumber;
@@ -164,7 +162,7 @@ const createGrade = async (req,res) => {
             const grades = new Grade(req.val);
             await grades.save();
 
-            courseValue = grades.courseNumber;
+            courseValue = grades.code;
             matricNum = grades.matNo;
             gradeVal = grades.gradeValue;
             acadYear = grades.academicYear;
@@ -173,12 +171,11 @@ const createGrade = async (req,res) => {
                 matNo: matricNum,
                 academicYear: acadYear,
                 semesterNumber: semesterValue,
-                courseCode: courseCodes,
+                courseCode: courseValue,
                 courseName: courseDesc,
                 creditUnits: creditUnits,
                 gradeValue: gradeVal,
                 levelNumber: levelYear,
-                courseNumber: courseValue,
             });
 
             await stGrades.save()

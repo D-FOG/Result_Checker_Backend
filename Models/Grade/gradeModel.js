@@ -8,8 +8,8 @@ const GradeSchema = new Schema({
     matNo: {
         type: String,
     },
-    courseNumber: {
-        type: Number,
+    code: {
+        type: string,
     },
     gradeValue: {
         type: String,

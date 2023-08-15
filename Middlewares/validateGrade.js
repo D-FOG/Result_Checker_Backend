@@ -9,7 +9,7 @@ const joi = require('joi');
 
 const createGradeSchema = joi.object({
     gradeValue: joi.string().max(1).label('Grade').custom(toUpperCase).required(),
-    courseNumber: joi.number().label('Course Number').required(),
+    code: joi.string().label('Course abbreviation').custom(toUpperCase),
     academicYear: joi.number().label('Academic year'),
     subjectNumber: joi.number().label('Course Number'),
     matNo: joi.string().max(13).label('Matriculation number').required()

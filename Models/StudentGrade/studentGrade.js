@@ -8,9 +8,6 @@ const studentGradeSchema = new Schema({
     gradeValue: {
         type: String
     },
-    courseNumber: {
-        type: Number
-    },
     courseName: {
         type: String
     },
