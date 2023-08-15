@@ -1,14 +1,14 @@
 const joi = require('joi');
 
-const toLowerCase = (value) => {
+const toUpperCase = (value) => {
     if (typeof value !== 'string') {
       throw new Error('Invalid input. The value must be a string.');
     }
-    return value.toLowerCase();
+    return value.toUpperCase();
   };
 const studentLoginSchema = joi.object({
     secretValue: joi.string().label('Secret Key').required(),
-    matNo: joi.string().max(13).custom(toLowerCase).label('Matriculation number').required()
+    matNo: joi.string().max(13).custom(toUpperCase).label('Matriculation number').required()
   })
   
   
