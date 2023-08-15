@@ -10,7 +10,7 @@ const studentLogin = async (req, res) => {
             if (student) {
                 sNumber = student.secretValue
             } else {
-                res.status(400).send(`Matriculation number is incorrect or does not exist`)
+                res.status(400).json({message: `Matriculation number is incorrect or does not exist`, data: student})
             }
             console.log(`student email from student is: `, sNumber)
             console.log(student)
