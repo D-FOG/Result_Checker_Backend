@@ -57,7 +57,7 @@ const createCourseGrade = (req,res) => {
         if (isCourseFields.length > 0) {
             res.status(409).json({error:`${ isCourseFields } is not valid`})
         } else {
-        const courseNumber = Level.findOne({"semester.courses.subjectNumber": subjectNumber})
+        const courseNumber = Level.findOne({"semester.courses.code": code})
             .then(courseExist => {
                 if (courseExist) {
                     res.status(409).json({error:`Course already exists`})
