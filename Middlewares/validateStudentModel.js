@@ -35,7 +35,7 @@ const studentSchema = joi.object({
   studentEmail: joi.string().custom(toLowerCase).email().label('Email').required(),
   enrollmentYear: joi.number().required(),
   secretValue: joi.string().label('Secret Key'),
-  matNo: joi.string().min(13).max(13).custom(toLowerCase).label('Matriculation number').required()
+  matNo: joi.string().min(13).max(13).custom(toUpperCase).label('Matriculation number').required()
 })
 
 const updateStudentSchema = joi.object({
@@ -44,7 +44,7 @@ const updateStudentSchema = joi.object({
   middleName: joi.string().custom(capitalizeFirstLetter).label('Middle Name'),
   studentEmail: joi.string().custom(toLowerCase).email().label('Email').required(),
   enrollmentYear: joi.number(),
-  matNo: joi.string().min(13).max(13).custom(toLowerCase).label('Matriculation number')
+  matNo: joi.string().min(13).max(13).custom(toUpperCase).label('Matriculation number')
 })
 
 const deleteStudentSchema = joi.object({
