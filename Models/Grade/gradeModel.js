@@ -9,7 +9,7 @@ const GradeSchema = new Schema({
         type: String,
     },
     code: {
-        type: string,
+        type: String,
     },
     gradeValue: {
         type: String,
